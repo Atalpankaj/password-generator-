@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Strong Password Generator</title>
+  <style>
+    body {
+      font-family: Arial;
+      background: #f2f2f2;
+      text-align: center;
+      padding: 50px;
+    }
+    .container {
+      background: white;
+      padding: 30px;
+      border-radius: 12px;
+      width: 90%;
+      max-width: 500px;
+      margin: auto;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      padding: 10px;
+      margin: 8px;
+      width: 80%;
+      max-width: 250px;
+    }
+    #password {
+      font-size: 1.2em;
+      font-weight: bold;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+
+
+<div class="container">
+  <h1>🔐 Strong Password Generator</h1>
+
+
+  <label>Password Length:
+    <input type="number" id="length" value="12" min="6" max="32">
+  </label><br>
+
+
+  <label><input type="checkbox" id="uppercase" checked> Include Uppercase</label><br>
+  <label><input type="checkbox" id="lowercase" checked> Include Lowercase</label><br>
+  <label><input type="checkbox" id="numbers" checked> Include Numbers</label><br>
+  <label><input type="checkbox" id="symbols" checked> Include Symbols</label><br><br>
+
+
+  <button onclick="generatePassword()">Generate</button>
+  <button onclick="copyPassword()">Copy</button>
+
+
+  <p id="password"></p>
+</div>
+
+
+<script>
+  function generatePassword() {
+    const length = document.getElementById('length').value;
+    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    const lower = "abcdefghijklmnopqrstuvwxyz";
+    const numbers = "0123456789";
+    const symbols = "!@#$%^&*()_+[]{}<>?/";
+
+
+    let chars = "";
+    if (document.getElementById('uppercase').checked) chars += upper;
+    if (document.getElementById('lowercase').checked) chars += lower;
+    if (document.getElementById('numbers').checked) chars += numbers;
+    if (document.getElementById('symbols').checked) chars += symbols;
+
+
+    if (chars === "") {
+      alert("Please select at least one character type.");
+      return;
+    }
+
+
+    let password = "";
+    for (let i = 0; i < length; i++) {
+      password += chars.charAt(Math.floor(Math.random() * chars.length));
+    }
+
+
+    document.getElementById("password").textContent = password;
+  }
+
+
+  function copyPassword() {
+    const password = document.getElementById("password").textContent;
+    if (!password) return;
+    navigator.clipboard.writeText(password).then(() => {
+      alert("Password copied!");
+    });
+  }
+</script>
+
+
+</body>
+</html>
